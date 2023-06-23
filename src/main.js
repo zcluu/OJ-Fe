@@ -57,8 +57,13 @@ axios.interceptors.response.use(
     },
 );
 
+let formatDate = (date) => {
+    let da = new Date(date)
+    return da.getFullYear() + '-' + (da.getMonth()+1).toString().padStart(2, '0') + '-' + da.getDate().toString().padStart(2, '0') + ' ' + da.getHours().toString().padStart(2, '0') + ':' + da.getMinutes().toString().padStart(2, '0')
+}
 
 app.config.globalProperties.$axios = axios
+app.config.globalProperties.$formatDate = formatDate
 app.config.globalProperties.$notice = NoticeMSG
 app.use(router)
 app.use(ElementPlus)
