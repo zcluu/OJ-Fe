@@ -15,6 +15,7 @@ a {
 
 :root {
     --sdufe-color: rgb(0, 97, 174);
+    --index-bg-color: rgb(247, 248, 250);
 }
 
 .sdufe-color {
@@ -60,4 +61,9 @@ a {
 
 .dot.primary {
     background-color: var(--el-color-primary);
+}
+
+.cm-editor {
+    outline: none !important;
+    border: 1px solid var(--el-border-color);
 }

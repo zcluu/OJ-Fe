@@ -4,12 +4,13 @@ import router from './router'
 import axios from "axios";
 import ElementPlus, {ElMessage} from 'element-plus'
 import 'element-plus/dist/index.css'
-
+import 'element-plus/theme-chalk/dark/css-vars.css'
+import './assets/dark.css'
 import './assets/main.css'
 
 const app = createApp(App)
 if (process.env.NODE_ENV === 'development') {
-    axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
+    axios.defaults.baseURL = 'http://127.0.0.1:8808/api'
 } else {
     axios.defaults.baseURL = '/api'
 }
@@ -59,7 +60,7 @@ axios.interceptors.response.use(
 
 let formatDate = (date) => {
     let da = new Date(date)
-    return da.getFullYear() + '-' + (da.getMonth()+1).toString().padStart(2, '0') + '-' + da.getDate().toString().padStart(2, '0') + ' ' + da.getHours().toString().padStart(2, '0') + ':' + da.getMinutes().toString().padStart(2, '0')
+    return da.getFullYear() + '-' + (da.getMonth() + 1).toString().padStart(2, '0') + '-' + da.getDate().toString().padStart(2, '0') + ' ' + da.getHours().toString().padStart(2, '0') + ':' + da.getMinutes().toString().padStart(2, '0')
 }
 
 app.config.globalProperties.$axios = axios
