@@ -1,8 +1,10 @@
 <script>
 import {defineComponent} from 'vue'
+import {DArrowRight} from "@element-plus/icons-vue";
 
 export default defineComponent({
     name: "recentContests",
+    components: {DArrowRight},
     data() {
         return {
             contests: []
@@ -25,9 +27,14 @@ export default defineComponent({
 <template>
     <el-card
             shadow="never"
-            style="margin-top: 20px;"
     >
-        <h3 style="margin-bottom: 20px;">Recent Contests</h3>
+        <div style="display: flex;justify-content: space-between;margin-bottom: 20px;">
+            <h3 style="display: inline-block;">Recent Contests</h3>
+            <el-link href="/contest" :underline="false">
+                More
+                <el-icon><DArrowRight /></el-icon>
+            </el-link>
+        </div>
         <el-table :data="contests">
             <el-table-column label="Title" prop="title">
                 <template #default="slot">
@@ -47,7 +54,7 @@ export default defineComponent({
                     {{ $formatDate(slot.row.end_at) }}
                 </template>
             </el-table-column>
-            <el-table-column label="Status" prop="status">
+            <el-table-column label="Status" prop="status" width="150">
                 <template #default="slot">
                     <span>
                         <template v-if="slot.row.status==='-1'">

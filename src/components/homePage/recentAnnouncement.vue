@@ -1,8 +1,10 @@
 <script>
 import {defineComponent} from 'vue'
+import {DArrowRight} from "@element-plus/icons-vue";
 
 export default defineComponent({
     name: "recentAnnouncement",
+    components: {DArrowRight},
     data() {
         return {
             announcements: [
@@ -146,12 +148,23 @@ export default defineComponent({
     <el-card
             shadow="never"
     >
-        <h3 style="margin-bottom: 20px;">Recent Announcements</h3>
+        <div style="display: flex;justify-content: space-between;margin-bottom: 20px;">
+            <h3 style="display: inline-block;">Recent Announcements</h3>
+            <el-link href="/announcement" :underline="false">
+                More
+                <el-icon>
+                    <DArrowRight/>
+                </el-icon>
+            </el-link>
+        </div>
         <template v-for="announce in announcements">
             <el-link :href="'/announcement/'+announce.id" :underline="false"
-                     style="display: block;"
+                     style="display: block;width: 100%;"
             >
-                {{ announce.title }}
+                <div style="display: flex;width: 100%;justify-content: space-between;">
+                    <span>{{ announce.title }}</span>
+                    <span>{{ $formatDate(announce.create_time) }}</span>
+                </div>
             </el-link>
             <div class="line" style="margin: 10px 0;"></div>
         </template>
@@ -159,6 +172,10 @@ export default defineComponent({
 
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
+.el-link {
+  ::v-deep(.el-link__inner) {
+    width: 100%;
+  }
+}
 </style>
