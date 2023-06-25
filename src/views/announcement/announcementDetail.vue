@@ -2,12 +2,12 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-    name: "problemPage"
+    name: "announcementDetail"
 })
 </script>
 
 <template>
-  Problem
+  announcementDetail
 </template>
 
 <style scoped>

@@ -2,12 +2,16 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-    name: "contestPage"
+    name: "announcementPage",
+    mounted() {
+        console.log(this.$route)
+    }
 })
 </script>
 
 <template>
-  <router-view/>
+  announcementPage
+    <router-view/>
 </template>
 
 <style scoped>
