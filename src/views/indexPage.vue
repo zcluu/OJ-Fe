@@ -12,12 +12,11 @@ export default defineComponent({
 </script>
 
 <template>
-    <user-controller/>
     <el-container>
-        <el-header class="no-padding" style="background-color: rgb(246,247,249);">
+        <el-header class="no-padding">
             <main-page-header/>
         </el-header>
-        <el-main id="mainContainer" style="min-height: calc(100vh - 236px);background-color: rgb(247,248,250);">
+        <el-main id="mainContainer" style="min-height: calc(100vh - 236px);background-color: var(--index-bg-color);">
             <router-view></router-view>
         </el-main>
         <el-footer class="no-padding" height="auto">
