@@ -15,37 +15,37 @@ const router = createRouter({
                     component: () => import('@/views/home/homePage.vue')
                 },
                 {
+                    path: 'problem/:pid',
+                    name: 'problemDetail',
+                    component: () => import('@/views/problem/problemDetail.vue')
+                },
+                {
                     path: 'problem',
                     name: 'problems',
                     component: () => import('@/views/problem/problemPage.vue'),
-                    children: [{
-                        path: ':pid',
-                        name: 'problemDetail',
-                        component: () => import('@/views/problem/problemDetail.vue')
-                    }]
+                },
+                {
+                    path: 'contest/:cid',
+                    name: 'contestDetail',
+                    component: () => import('@/views/contest/contestDetail.vue')
                 },
                 {
                     path: 'contest',
                     name: 'contest',
                     component: () => import('@/views/contest/contestPage.vue'),
-                    children: [{
-                        path: ':cid',
-                        name: 'contestDetail',
-                        component: () => import('@/views/contest/contestPage.vue')
-                    }]
                 },
                 {
                     path: 'announcement',
                     name: 'announcement',
                     component: () => import('@/views/announcement/announcementPage.vue'),
-                    children: [{
-                        path: ':aid',
-                        name: 'announcementDetail',
-                        component: () => import('@/views/announcement/announcementDetail.vue')
-                    }]
-                }
+                },
+                {
+                    path: 'announcement/:aid',
+                    name: 'announcementDetail',
+                    component: () => import('@/views/contest/announcementDetail.vue')
+                },
             ]
-        },
+        }
     ]
 })
 
