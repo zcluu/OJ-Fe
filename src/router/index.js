@@ -15,24 +15,24 @@ const router = createRouter({
                     component: () => import('@/views/home/homePage.vue')
                 },
                 {
-                    path: 'problem/:pid',
-                    name: 'problemDetail',
-                    component: () => import('@/views/problem/problemDetail.vue')
-                },
-                {
-                    path: 'problem',
+                    path: 'problem/:pid?',
                     name: 'problems',
                     component: () => import('@/views/problem/problemPage.vue'),
                 },
                 {
-                    path: 'contest/:cid',
-                    name: 'contestDetail',
-                    component: () => import('@/views/contest/contestDetail.vue')
+                    path: '/problem/detail/:pid',
+                    name: 'problemDetail',
+                    component: () => import('@/views/problem/problemDetail.vue')
                 },
                 {
-                    path: 'contest',
+                    path: 'contest/:pid?',
                     name: 'contest',
                     component: () => import('@/views/contest/contestPage.vue'),
+                },
+                {
+                    path: 'contest/detail/:cid',
+                    name: 'contestDetail',
+                    component: () => import('@/views/contest/contestDetail.vue')
                 },
                 {
                     path: 'announcement',

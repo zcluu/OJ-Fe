@@ -14,8 +14,8 @@ export default defineComponent({
         }
     },
     mounted() {
-        if (!this.$route.params.pid)
-            this.getPage()
+        this.page_num = this.$route.params.pid ? this.$route.params.pid : this.page_num
+        this.getPage()
     },
     methods: {
         getPage() {
@@ -31,6 +31,12 @@ export default defineComponent({
             })
         },
         changePage(page) {
+            this.$router.push({
+                name: 'problems',
+                params: {
+                    pid: page
+                }
+            })
             this.page_num = page
             this.getPage()
         }
@@ -38,48 +44,47 @@ export default defineComponent({
 })
 </script>
 <template>
-    <div v-if="$route.params.pid" style="width: 80%;margin: 0 auto;">
-        <router-view></router-view>
-    </div>
-    <div style="width: 60%;margin:0 auto;" v-else>
-        <el-table
-                v-loading="tableLoading"
-                :data="items">
-            <el-table-column label="ID" width="100">
-                <template #default="slot">
-                    <el-link
-                            :href="'/problem/'+slot.row.id"
-                            :underline="false">{{ slot.row.id }}
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="Title" prop="title">
-                <template #default="slot">
-                    <el-link
-                            :href="'/problem/'+slot.row.id"
-                            :underline="false">{{ slot.row.title }}
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="AC Rate" prop="status" width="150">
-                <template #default="slot">
-                    <el-text>
-                        {{ slot.row.ac_count }} / {{ slot.row.submission }}({{ slot.row.ac_rate.toFixed(2) }}%)
-                    </el-text>
-                    <el-progress :percentage="slot.row.ac_rate.toFixed(2)" :show-text="false"></el-progress>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination
-                style="margin-top: 20px;"
-                v-modelr:current-page="page_num"
-                :hide-on-single-page="false"
-                :page-size="page_size"
-                layout="prev, pager, next"
-                :page-count="pages"
-                @current-change="changePage"
-        ></el-pagination>
-    </div>
+    <keep-alive>
+        <div style="width: 60%;margin:0 auto;">
+            <el-table
+                    v-loading="tableLoading"
+                    :data="items">
+                <el-table-column label="ID" width="100">
+                    <template #default="slot">
+                        <el-link
+                                :href="'/problem/detail/'+slot.row.id"
+                                :underline="false">{{ slot.row.id }}
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="Title" prop="title">
+                    <template #default="slot">
+                        <el-link
+                                :href="'/problem/detail/'+slot.row.id"
+                                :underline="false">{{ slot.row.title }}
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="AC Rate" prop="status" width="150">
+                    <template #default="slot">
+                        <el-text>
+                            {{ slot.row.ac_count }} / {{ slot.row.submission }}({{ slot.row.ac_rate.toFixed(2) }}%)
+                        </el-text>
+                        <el-progress :percentage="slot.row.ac_rate.toFixed(2)" :show-text="false"></el-progress>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                    style="margin-top: 20px;"
+                    v-model:current-page="page_num"
+                    :hide-on-single-page="false"
+                    :page-size="page_size"
+                    layout="prev, pager, next"
+                    :page-count="pages"
+                    @current-change="changePage"
+            ></el-pagination>
+        </div>
+    </keep-alive>
 </template>
 
 <style scoped>
