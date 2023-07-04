@@ -11,7 +11,7 @@ import {basicDark} from "@/themes/basic-dark";
 
 export default defineComponent({
     name: "codeEditor",
-    expose: ['updateExtension'],
+    expose: ['updateExtension','code'],
     props: {
         modelValue: {
             type: String,
@@ -50,7 +50,6 @@ export default defineComponent({
             extensions: [basicLight],
             language: '',
             code: '',
-            showItem: true
         }
     },
     created() {
@@ -88,18 +87,6 @@ import {Codemirror} from "vue-codemirror";
 
 <template>
     <codemirror
-            v-if="showItem"
-            v-model="code"
-            placeholder="Code goes here..."
-            :style="{ height: '400px' }"
-            :autofocus="true"
-            :indent-with-tab="true"
-            :tab-size="2"
-            :extensions="extensions"
-            @input="$emit('update:modelValue', code)"
-    />
-    <codemirror
-            v-else
             v-model="code"
             placeholder="Code goes here..."
             :style="{ height: '400px' }"
