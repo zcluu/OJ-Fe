@@ -1,3 +1,7 @@
 html.dark {
     --index-bg-color: #121212;
 }
+
+html.dark .cm-editor {
+    background-color: var(--index-bg-color);
+}
