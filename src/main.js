@@ -30,7 +30,7 @@ let NoticeMSG = {
 
 axios.interceptors.request.use(
     config => {
-        config.headers.token = localStorage.getItem('token');
+        config.headers['x-token'] = localStorage.getItem('token');
         return config;
     },
     error => {
@@ -63,8 +63,19 @@ let formatDate = (date) => {
     return da.getFullYear() + '-' + (da.getMonth() + 1).toString().padStart(2, '0') + '-' + da.getDate().toString().padStart(2, '0') + ' ' + da.getHours().toString().padStart(2, '0') + ':' + da.getMinutes().toString().padStart(2, '0')
 }
 
+let getTagHeight = {
+    class: (name) => {
+        return document.getElementsByClassName(name)[0].offsetHeight
+    },
+    id: (name) => {
+        return document.getElementById(name).offsetHeight
+    }
+}
+
+app.config.globalProperties.$is_dark = false
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$formatDate = formatDate
+app.config.globalProperties.$getheight = getTagHeight
 app.config.globalProperties.$notice = NoticeMSG
 app.use(router)
 app.use(ElementPlus)
