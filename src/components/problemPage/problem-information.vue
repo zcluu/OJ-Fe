@@ -19,7 +19,7 @@ export default defineComponent({
         </el-text>
         <div class="item" style="padding-top: 12px;">
             <el-text class="label">ID</el-text>
-            <el-text class="value">{{ problem.id }}</el-text>
+            <el-text class="value">{{ $route.params.sid ? $route.params.sid : problem.id }}</el-text>
         </div>
         <div class="item">
             <el-text class="label">Time Limit</el-text>
@@ -46,7 +46,7 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     padding: 12px 0 3px;
-      border-bottom: 1px solid var(--el-border-color);
+    border-bottom: 1px solid var(--el-border-color);
   }
 }
 

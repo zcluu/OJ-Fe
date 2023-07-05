@@ -8,26 +8,27 @@ import {cpp} from '@codemirror/lang-cpp'
 import {php} from '@codemirror/lang-php'
 import ProblemInformation from "@/components/problemPage/problem-information.vue";
 import ProblemStatistics from "@/components/problemPage/problem-statistics.vue";
+import CodeEditor from "@/components/codeEditor.vue";
+import {CodeJudgeStatus, JudgeStatus} from "@/constants";
 
 export default defineComponent({
     name: "problemDetail",
-    components: {ProblemStatistics, PieChart, List, Menu, ProblemInformation, Codemirror, CopyDocument},
-    setup() {
+    computed: {
+        JudgeStatus() {
+            return JudgeStatus
+        },
+        CodeJudgeStatus() {
+            return CodeJudgeStatus
+        },
     },
+    components: {CodeEditor, ProblemStatistics, PieChart, List, Menu, ProblemInformation, Codemirror, CopyDocument},
     data() {
         return {
             problem: {},
             samples: [],
-            selectedText: '',
-            submitForm: {
-                selectedLanguage: '',
-                sourcecode: ''
-            },
-            extensions: [],
-            waitSubmit: true
         }
     },
-    mounted() {
+    created() {
         this.getDetail()
     },
     methods: {
@@ -37,96 +38,34 @@ export default defineComponent({
                 this.samples = res.data.samples
             })
         },
-        copyCode(ix) {
-            this.selectedText = this.samples[ix][0]
-            setTimeout(() => {
-                let input = document.getElementById('copyArea')
-                input.select()
-                document.execCommand('copy')
-            }, 200)
-        }
     }
 })
 </script>
 
 <template>
-    <el-row :gutter="20" style="width: 80%;margin:0 auto;">
-        <el-col :span="16">
-            <el-card shadow="never">
-                <h2>{{ problem.title }}</h2>
-                <div class="problem-item">
-                    <div class="title">Description</div>
-                    <div class="problem-item-content" v-html="problem.description"></div>
-                </div>
-                <div class="problem-item">
-                    <div class="title">Input</div>
-                    <div class="problem-item-content" v-html="problem.inputs"></div>
-                </div>
-                <div class="problem-item">
-                    <div class="title">Output</div>
-                    <div class="problem-item-content" v-html="problem.outputs"></div>
-                </div>
-                <div v-for="(sample,index) in samples">
-                    <div class="problem-item">
-                        <div class="title">
-                            Sample Input{{ index + 1 }}
-                            <el-icon class="copy-btn" @click="copyCode(index)">
-                                <CopyDocument/>
-                            </el-icon>
-                        </div>
-                        <pre class="codes" :id="'sample-input-'+index">{{ sample[0] }}</pre>
-                    </div>
-                    <div class="problem-item">
-                        <div class="title">Sample Output{{ index + 1 }}</div>
-                        <pre class="codes">{{ sample[1] }}</pre>
-                    </div>
-                </div>
-                <template v-if="problem.hints">
-                    <div class="problem-item">
-                        <div class="title">Hints</div>
-                        <div class="problem-item-content" v-html="problem.hints"></div>
-                    </div>
-                </template>
-            </el-card>
-            <el-card shadow="never" style="margin-top: 20px;">
-                <el-form>
-                    <el-form-item label="Language">
-                        <el-select v-model="submitForm.selectedLanguage">
-                            <el-option v-for="it in problem.language"
-                                       :value="it"
-                            ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <codemirror
-                            v-model="submitForm.sourcecode"
-                            placeholder="Code goes here..."
-                            :style="{ height: '400px' }"
-                            :autofocus="true"
-                            :indent-with-tab="true"
-                            :tab-size="2"
-                            :extensions="extensions"
-                    />
-                    <div style="display: flex;justify-content: end;margin-top: 10px;">
-                        <el-button type="success" plain :disabled="waitSubmit">Submit</el-button>
-                    </div>
-                </el-form>
-            </el-card>
-        </el-col>
-        <el-col :span="8">
-            <el-card shadow="never" style="margin-bottom: 10px;">
-                <el-text size="large" style="cursor: pointer;"
-                         @click="$router.push('/problem/'+$route.params.pid+'/submission')">
-                    <el-icon>
-                        <List/>
-                    </el-icon>
-                    My Submission
-                </el-text>
-            </el-card>
-            <problem-information :problem="problem"/>
-            <problem-statistics :problem="problem"/>
-        </el-col>
-    </el-row>
-    <textarea style="opacity: 0;height: 0;width: 0;" id="copyArea" v-model="selectedText"></textarea>
+    <div style="width: 80%;margin: 0 auto;">
+        <el-row :gutter="20" style="width: 80%;margin:0 auto;">
+            <el-col :span="16">
+                <router-view :problem="problem" :samples="samples"/>
+            </el-col>
+            <el-col :span="8">
+                <el-card shadow="never" style="margin-bottom: 10px;">
+                    <el-text size="large" style="cursor: pointer;"
+                             @click="$router.push({
+                                 name:'problemSubmission',
+                                 params:{pid:$route.params.pid}
+                             })">
+                        <el-icon>
+                            <List/>
+                        </el-icon>
+                        My Submission
+                    </el-text>
+                </el-card>
+                <problem-information :problem="problem"/>
+                <problem-statistics :problem="problem"/>
+            </el-col>
+        </el-row>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -151,4 +90,11 @@ export default defineComponent({
   }
 }
 
+.status {
+  padding: 0 5px;
+
+  .dot {
+    margin-right: 5px;
+  }
+}
 </style>
