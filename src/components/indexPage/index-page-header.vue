@@ -1,6 +1,7 @@
 <script>
 import {defineComponent} from 'vue'
 import {Grid, HomeFilled} from "@element-plus/icons-vue";
+import bus from "@/event";
 
 export default defineComponent({
     name: "main-page-header",
@@ -10,9 +11,18 @@ export default defineComponent({
             is_dark: false
         }
     },
+    created() {
+        if (localStorage.getItem('is_dark') === 'true') {
+            this.is_dark = true
+            document.getElementsByTagName('html')[0].className = 'dark'
+        }
+    },
     methods: {
         changeDark() {
             this.is_dark = !this.is_dark
+            bus.emit('changeDark', this.is_dark)
+            localStorage.setItem('is_dark', this.is_dark)
+            this.$is_dark = this.is_dark
             if (this.is_dark) {
                 document.getElementsByTagName('html')[0].className = 'dark'
             } else {
@@ -29,6 +39,7 @@ import UserController from "@/components/userController.vue";
 let activeIndex = '/' + window.location.pathname.slice(1).split('/')[0]
 </script>
 <template>
+    <user-controller/>
     <el-affix>
         <el-menu
                 :default-active="activeIndex"
@@ -38,7 +49,6 @@ let activeIndex = '/' + window.location.pathname.slice(1).split('/')[0]
                 :router="true"
                 style="border-bottom-color: var(--el-border-color-light);background-color: var(--el-bg-color)"
         >
-            <user-controller/>
             <el-menu-item class="logo">
                 <!--                <el-image src="http://oss.py00.cn/oj/sdufeacm2.png"-->
                 <!--                          style="height: 40px;padding-top: 10px;"-->
