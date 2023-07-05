@@ -1,10 +1,18 @@
 <script>
 import {defineComponent} from 'vue'
 import {Search} from "@element-plus/icons-vue";
+import LoginPage from "@/views/user/loginPage.vue";
+import RegisterPage from "@/views/user/registerPage.vue";
 
 export default defineComponent({
     name: "userController",
-    components: {Search}
+    components: {RegisterPage, LoginPage, Search},
+    data() {
+        return {
+            loginDialog: false,
+            registerDialog: false,
+        }
+    }
 })
 </script>
 
@@ -16,17 +24,42 @@ export default defineComponent({
                     src="http://oss.py00.cn/blog/avatar.png"
                     :size="30"
             ></el-avatar>
-            <el-link href="login" class="hidden" :underline="false">
+            <el-text class="hidden" @click="loginDialog = true">
                 登录
-            </el-link>
-            <el-link href="register" class="hidden" :underline="false">
+            </el-text>
+            <el-text class="hidden" @click="registerDialog = true">
                 注册
-            </el-link>
+            </el-text>
         </div>
     </div>
+    <el-dialog v-model="loginDialog"
+               :show-close="false"
+               width="30%"
+               class="control-dialog">
+        <login-page/>
+    </el-dialog>
+    <el-dialog v-model="registerDialog"
+               :show-close="false"
+               width="30%"
+               class="control-dialog">
+        <register-page/>
+    </el-dialog>
 </template>
 
 <style scoped lang="scss">
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  height: 100%;
+  background-color: var(--el-overlay-color-lighter);
+  overflow: auto;
+}
+
 .outer-box {
   z-index: 999;
   position: absolute;
