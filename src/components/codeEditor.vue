@@ -11,7 +11,7 @@ import {basicDark} from "@/themes/basic-dark";
 
 export default defineComponent({
     name: "codeEditor",
-    expose: ['updateExtension','code'],
+    expose: ['updateExtension', 'code'],
     props: {
         modelValue: {
             type: String,
@@ -24,6 +24,14 @@ export default defineComponent({
         height: {
             type: String,
             default: '200px',
+        },
+        init_language: {
+            type: String,
+            default: ''
+        },
+        is_disabled: {
+            type: Boolean,
+            default: false,
         },
     },
     computed: {
@@ -54,6 +62,8 @@ export default defineComponent({
     },
     created() {
         if (localStorage.getItem('is_dark') === 'true') this.extensions = [basicDark]
+        this.code = this.modelValue
+        if (this.init_language) this.updateExtension(this.init_language)
     },
     mounted() {
         bus.on('changeDark', (is_dark) => {
@@ -88,6 +98,7 @@ import {Codemirror} from "vue-codemirror";
 <template>
     <codemirror
             v-model="code"
+            :disabled="is_disabled"
             placeholder="Code goes here..."
             :style="{ height: '400px' }"
             :autofocus="true"
