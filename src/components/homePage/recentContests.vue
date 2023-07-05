@@ -1,9 +1,15 @@
 <script>
 import {defineComponent} from 'vue'
 import {DArrowRight} from "@element-plus/icons-vue";
+import {ContestStatus} from "@/constants";
 
 export default defineComponent({
     name: "recentContests",
+    computed: {
+        ContestStatus() {
+            return ContestStatus
+        }
+    },
     components: {DArrowRight},
     data() {
         return {
@@ -32,14 +38,16 @@ export default defineComponent({
             <h3 style="display: inline-block;">Recent Contests</h3>
             <el-link href="/contest" :underline="false">
                 More
-                <el-icon><DArrowRight /></el-icon>
+                <el-icon>
+                    <DArrowRight/>
+                </el-icon>
             </el-link>
         </div>
         <el-table :data="contests">
             <el-table-column label="Title" prop="title">
                 <template #default="slot">
                     <el-link
-                            :href="'/contest/'+slot.row.id"
+                            :href="'/contest/detail/'+slot.row.id"
                             :underline="false">{{ slot.row.title }}
                     </el-link>
                 </template>
@@ -57,17 +65,17 @@ export default defineComponent({
             <el-table-column label="Status" prop="status" width="150">
                 <template #default="slot">
                     <span>
-                        <template v-if="slot.row.status==='-1'">
+                        <template v-if="slot.row.status===ContestStatus.CONTEST_ENDED">
                             <span class="dot danger" style="margin-right: 5px;"></span>
                             <span>Ended</span>
                         </template>
-                        <template v-if="slot.row.status==='0'">
+                        <template v-if="slot.row.status===ContestStatus.CONTEST_UNDERWAY">
                             <span class="dot danger" style="margin-right: 5px;"></span>
                             <span>Running</span>
                         </template>
-                        <template v-if="slot.row.status==='1'">
+                        <template v-if="slot.row.status===ContestStatus.CONTEST_NOT_START">
                             <span class="dot success" style="margin-right: 5px;"></span>
-                            <span>Waiting</span>
+                            <span>Not Start</span>
                         </template>
                     </span>
                 </template>
