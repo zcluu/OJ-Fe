@@ -10,13 +10,13 @@ const router = createRouter({
             component: () => import('@/views/indexPage.vue'),
             children: [
                 {
-                    path:'login',
-                    name:'userLogin',
-                    component:()=>import('@/views/user/loginPage.vue')
+                    path: 'login',
+                    name: 'userLogin',
+                    component: () => import('@/views/user/loginPage.vue')
                 },
                 {
-                    path:'register',
-                    component:()=>import('@/views/user/registerPage.vue')
+                    path: 'register',
+                    component: () => import('@/views/user/registerPage.vue')
                 },
                 {
                     path: 'home',
@@ -32,16 +32,16 @@ const router = createRouter({
                     path: '/problem/detail/:pid',
                     name: 'problemDetail',
                     component: () => import('@/views/problem/problemDetail.vue'),
-                    children:[
+                    children: [
                         {
                             path: '',
                             name: 'problemDescription',
-                            component:()=>import('@/components/problemPage/problem-description.vue')
+                            component: () => import('@/components/problemPage/problem-description.vue')
                         },
                         {
                             path: 'submissions',
                             name: 'problemSubmission',
-                            component:()=>import('@/components/problemPage/problem-submission.vue')
+                            component: () => import('@/components/problemPage/problem-submission.vue')
                         }
                     ]
                 },
@@ -85,16 +85,16 @@ const router = createRouter({
                             path: 'problems/:sid',
                             name: 'contestProblemDetail',
                             component: () => import('@/views/contest/contestProblemDetail.vue'),
-                            children:[
+                            children: [
                                 {
                                     path: '',
                                     name: 'contestProblemDescription',
-                                    component:()=>import('@/components/contestPage/problem/problem-description.vue')
+                                    component: () => import('@/components/contestPage/problem/problem-description.vue')
                                 },
                                 {
                                     path: 'submissions',
                                     name: 'contestProblemSubmission',
-                                    component:()=>import('@/components/contestPage/problem/problem-submission.vue')
+                                    component: () => import('@/components/contestPage/problem/problem-submission.vue')
                                 }
                             ]
                         },
@@ -110,6 +110,28 @@ const router = createRouter({
                     name: 'announcementDetail',
                     component: () => import('@/views/announcement/announcementPage.vue')
                 },
+            ]
+        },
+        {
+            name: 'admin',
+            path: '/admin',
+            component:()=>import('@/views/adminPage.vue'),
+            redirect:'admin/home',
+            children:[
+                {
+                    name: 'adminHome',
+                    path: 'home'
+                },
+                {
+                    name: 'adminProblems',
+                    path: 'problem',
+                    component:()=>import('@/views/admin/adminProblemPage.vue')
+                },
+                {
+                    name: 'adminProblemEdit',
+                    path: 'problem/edit/:pid?',
+                    component:()=>import('@/views/admin/adminProblemEditPage.vue')
+                }
             ]
         }
     ]
