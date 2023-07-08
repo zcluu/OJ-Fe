@@ -127,7 +127,7 @@ export default {
                 this.$axios.post('/user/register', this.userLoginForm).then(res => {
                     if (res.status === 200) {
                         this.$notice.success('Register Successfully!')
-                        this.$router.push({name: 'userLogin'})
+                        this.$emit('registerSuccess')
                     }
                 })
             }

@@ -42,7 +42,9 @@ export default defineComponent({
                :show-close="false"
                width="30%"
                class="control-dialog">
-        <register-page/>
+        <register-page
+                @registerSuccess="()=>{registerDialog=false,loginDialog=true}"
+        />
     </el-dialog>
 </template>
 

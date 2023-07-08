@@ -80,7 +80,7 @@ export default defineComponent({
                     if (res.status === 200) {
                         localStorage.setItem('token', res.data.token)
                         localStorage.setItem('username', this.userLoginForm.username)
-                        this.$router.back(1)
+                        window.location.reload()
                     }
                 })
             }
