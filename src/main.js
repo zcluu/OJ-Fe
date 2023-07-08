@@ -10,7 +10,7 @@ import './assets/main.css'
 
 const app = createApp(App)
 if (process.env.NODE_ENV === 'development') {
-    axios.defaults.baseURL = 'http://127.0.0.1:8808/api'
+        axios.defaults.baseURL = 'http://127.0.0.1:8808/api'
 } else {
     axios.defaults.baseURL = '/api'
 }
