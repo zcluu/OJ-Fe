@@ -13,7 +13,6 @@ export default defineComponent({
     components: {CopyDocument, CodeEditor},
     props: ['problem', 'samples'],
     computed: {
-
         CodeJudgeStatus() {
             return CodeJudgeStatus
         },
@@ -135,7 +134,7 @@ export default defineComponent({
                     height="400px"
             ></code-editor>
             <div style="display: flex;justify-content: end;margin-top: 10px;">
-                <el-text class="status" v-if="judgeStatus">
+                <el-text class="status" v-if="judgeStatus!==null">
                     <i class="dot" :class="CodeJudgeStatus[parseInt(judgeStatus)+ 2].type"></i>
                     {{ CodeJudgeStatus[parseInt(judgeStatus) + 2].name }}
                 </el-text>
