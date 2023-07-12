@@ -17,40 +17,39 @@ export default defineComponent({
     data() {
         return {
             items: [],
-            page_size: 20,
-            page_num: 1,
-            total: 1,
-            pages: 1,
             tableLoading: false,
         }
     },
-    mounted() {
-        this.page_num = this.$route.params.pid ? this.$route.params.pid : this.page_num
+    created() {
         this.getPage()
     },
     methods: {
         getPage() {
             this.items = []
             this.tableLoading = true
-            this.$axios.get('/admin/problem/all', {params: {size: this.page_size, page: this.page_num}}).then(res => {
-                this.items = res.data.items
+            this.$axios.get('/admin/contest/problem', {
+                params: {
+                    cid: this.$route.params.cid
+                }
+            }).then(res => {
+                this.items = res.data
                 this.tableLoading = false
-                this.page_size = res.data.size
-                this.page_num = res.data.page
-                this.total = res.data.total
-                this.pages = res.data.pages
             })
         },
         createProblem() {
             this.$router.push({
-                name: 'adminProblemAdd',
+                name: 'adminContestProblemAdd',
+                params: {
+                    cid: this.$route.params.cid
+                }
             })
         },
         changePage(page) {
             this.$router.push({
-                name: 'adminProblems',
+                name: 'adminContestProblemAll',
                 params: {
-                    pid: page
+                    pid: page,
+                    cid: this.$route.params.cid
                 }
             })
             this.page_num = page
@@ -60,13 +59,13 @@ export default defineComponent({
             this.$router.push({
                 name: 'adminProblemEdit',
                 params: {
-                    pid: encryptData(r.id)
+                    pid: r.id
                 }
             })
         },
         deleteProblem(r) {
             this.$axios.delete('/admin/problem', {
-                params: {pid: encryptData(r.id)}
+                params: {pid: r.id}
             }).then(res => {
                 if (res.data) {
                     this.$notice.success('Delete successfully!')
@@ -86,7 +85,7 @@ export default defineComponent({
 </script>
 <template>
     <keep-alive>
-        <div style="width: 60%;margin:0 auto;">
+        <div style="">
             <el-button type="primary"
                        style="margin-bottom: 10px;"
                        @click="createProblem"
@@ -95,7 +94,7 @@ export default defineComponent({
             <el-table
                     v-loading="tableLoading"
                     :data="items">
-                <el-table-column label="ID" width="100" prop="id"></el-table-column>
+                <el-table-column label="ID" width="100" type="index"></el-table-column>
                 <el-table-column label="Title" prop="title"></el-table-column>
                 <el-table-column label="Author" prop="author" width="150"></el-table-column>
                 <el-table-column label="Create Time" prop="" width="150">
