@@ -21,6 +21,7 @@
     "@lezer/highlight": "^1.1.6",
     "axios": "^1.4.0",
     "codemirror": "^6.0.1",
+    "crypto-js": "^4.1.1",
     "element-plus": "^2.3.4",
     "mitt": "^3.0.0",
     "sass": "^1.63.6",
