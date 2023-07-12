@@ -45,14 +45,14 @@ export default defineComponent({
 
 <template>
     <el-table :data="rankInfo">
-        <el-table-column label="rk" prop="rk" width="80">
+        <el-table-column label="rk" prop="rk" width="80" align="center">
             <template #default="slot">
                 {{ page_size * (page_num - 1) + (slot.$index + 1) }}
             </template>
         </el-table-column>
-        <el-table-column label="username" prop="username" width="200"></el-table-column>
-        <el-table-column label="ac count" prop="ac_count" width="100"></el-table-column>
-        <el-table-column label="total time" prop="total_time" width="120"></el-table-column>
+        <el-table-column label="username" prop="username" width="200" align="center"></el-table-column>
+        <el-table-column label="ac count" prop="ac_count" width="100" align="center"></el-table-column>
+        <el-table-column label="total time" prop="total_time" width="120" align="center"></el-table-column>
         <el-table-column v-for="ix in p_length"
                          :label="String.fromCharCode(64 + ix)"
                          align="center"
@@ -68,12 +68,17 @@ export default defineComponent({
                     >
                         {{ slot.row.submissions[ix - 1].total_time }}
                     </el-text>
+                    <el-text v-if="!slot.row.submissions[ix-1].is_ac"
+                             type="danger"
+                    >
+                        (-{{ slot.row.submissions[ix - 1].submission_number }})
+                    </el-text>
                     <el-text
                             :type="slot.row.submissions[ix-1].is_first_ac?'success':'default'"
                             :style="{
                                 fontWeight:slot.row.submissions[ix-1].is_first_ac?'bold':'normal'
                             }"
-                            v-if="slot.row.submissions[ix-1].submission_number && slot.row.submissions[ix-1].submission_number!==1"
+                            v-if="slot.row.submissions[ix-1].submission_number && slot.row.submissions[ix-1].submission_number!==1 && slot.row.submissions[ix-1].is_ac"
                     >
                         (-{{ slot.row.submissions[ix - 1].submission_number - 1 }})
                     </el-text>
