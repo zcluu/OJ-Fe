@@ -24,10 +24,10 @@ export default defineComponent({
                     src="http://oss.py00.cn/blog/avatar.png"
                     :size="30"
             ></el-avatar>
-            <el-text class="hidden" @click="loginDialog = true">
+            <el-text class="hidden link-btn" @click="loginDialog = true">
                 登录
             </el-text>
-            <el-text class="hidden" @click="registerDialog = true">
+            <el-text class="hidden link-btn" @click="registerDialog = true">
                 注册
             </el-text>
         </div>
@@ -77,17 +77,28 @@ export default defineComponent({
   .inner-box {
     width: 120px;
     height: 40px;
-    background-color: #dedede;
-    color: #fff;
+    background-color: #fff;
+      border: var(--el-border);
+      overflow: hidden;
 
     display: flex;
     justify-content: space-around;
     align-items: center;
     text-align: center;
+
+    cursor: pointer;
   }
 
   &:hover {
     width: 120px;
+  }
+
+  .link-btn {
+    transition-duration: .3s;
+
+    &:hover {
+      color: var(--sdufe-color);
+    }
   }
 }
 

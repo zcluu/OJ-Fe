@@ -18,6 +18,12 @@ class ContestStatus {
     static CONTEST_UNDERWAY = "0"
 }
 
+const ContestStatusLabel = {
+    '1': {label: 'CONTEST_NOT_START', type: 'primary'},
+    '-1': {label: 'CONTEST_ENDED', type: 'danger'},
+    '0': {label: 'CONTEST_UNDERWAY', type: 'success'}
+}
+
 class ContestRuleType {
     static ACM = 0
     static OI = 1
@@ -67,4 +73,5 @@ export {
     CONTEST_TYPE,
     JudgeStatus,
     CodeJudgeStatus,
+    ContestStatusLabel,
 }

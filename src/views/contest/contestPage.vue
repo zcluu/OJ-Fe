@@ -39,6 +39,14 @@ export default defineComponent({
             })
             this.page_num = page
             this.getPage()
+        },
+        getContestDetail(r, c, e) {
+            this.$router.push({
+                name: 'contestDescription',
+                params: {
+                    cid: r.id
+                }
+            })
         }
     }
 })
@@ -50,24 +58,13 @@ export default defineComponent({
 <template>
     <div style="width: 60%;margin:0 auto;">
         <el-table
+                @row-click="getContestDetail"
                 v-loading="tableLoading"
-                :data="items">
-            <el-table-column label="ID" width="100">
-                <template #default="slot">
-                    <el-link
-                            :href="'/contest/detail/'+slot.row.id"
-                            :underline="false">{{ slot.row.id }}
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="Title" prop="title">
-                <template #default="slot">
-                    <el-link
-                            :href="'/contest/detail/'+slot.row.id"
-                            :underline="false">{{ slot.row.title }}
-                    </el-link>
-                </template>
-            </el-table-column>
+                :data="items"
+                style="cursor: pointer;"
+        >
+            <el-table-column label="ID" width="100" prop="id"></el-table-column>
+            <el-table-column label="Title" prop="title"></el-table-column>
         </el-table>
         <el-pagination
                 style="margin-top: 20px;"
