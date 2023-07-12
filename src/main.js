@@ -39,20 +39,33 @@ axios.interceptors.request.use(
 );
 axios.interceptors.response.use(
     res => {
-        if (res.data.status === 401) {
+        if (res.data.status === 200 || res.status === 200) {
+            return res
+        }
+        if (res.data.status === 401 || res.status === 401) {
             ElMessage.error(res.data.msg || '登录状态失效，请重新登录')
             router.push('/')
+        } else {
+            if (res.data.msg) {
+                NoticeMSG.error(res.data.msg)
+            } else if (res.data) {
+                NoticeMSG.error(res.data)
+            } else {
+                NoticeMSG.error('Request is rejected!')
+            }
         }
         return res;
     },
     error => {
-        if (error.response.status === 401) {
-            NoticeMSG.error(error.response.data.msg || '登录状态失效，请重新登录')
-            router.push('/')
-        } else {
-            if (error.response.data.msg) {
-                NoticeMSG.error(error.response.data.msg)
+        if (error.response) {
+            if (error.response.status === 401) {
+                NoticeMSG.error(error.response.data.msg || 'Session is expired or invalid, please login')
+                router.push('/')
+            } else {
+                NoticeMSG.error(error.response.data.msg || 'System error, please contact the administrator')
             }
+        } else {
+            NoticeMSG.error('Request is rejected')
             return Promise.reject(error);
         }
     },
@@ -69,6 +82,9 @@ let getTagHeight = {
     },
     id: (name) => {
         return document.getElementById(name).offsetHeight
+    },
+    query: (name) => {
+        return document.querySelector(name).offsetHeight
     }
 }
 
