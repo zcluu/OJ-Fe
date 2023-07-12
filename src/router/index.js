@@ -1,7 +1,7 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
@@ -115,24 +115,66 @@ const router = createRouter({
         {
             name: 'admin',
             path: '/admin',
-            component:()=>import('@/views/adminPage.vue'),
-            redirect:'admin/home',
-            children:[
+            component: () => import('@/views/adminPage.vue'),
+            redirect: 'admin/home',
+            children: [
                 {
                     name: 'adminHome',
                     path: 'home'
                 },
                 {
                     name: 'adminProblems',
-                    path: 'problem',
-                    component:()=>import('@/views/admin/adminProblemPage.vue')
+                    path: 'problem/:pid?',
+                    component: () => import('@/views/admin/adminProblemPage.vue')
                 },
                 {
                     name: 'adminProblemEdit',
                     path: 'problem/edit/:pid?',
-                    component:()=>import('@/views/admin/adminProblemEditPage.vue')
+                    component: () => import('@/views/admin/adminProblemEditPage.vue')
+                },
+                {
+                    name: 'adminProblemAdd',
+                    path: 'problem/add',
+                    component: () => import('@/views/admin/adminProblemEditPage.vue')
+                },
+                {
+                    name: 'adminContest',
+                    path: 'contest',
+                    component: () => import('@/views/admin/adminContestPage.vue'),
+                    redirect: '/admin/contest/all',
+                    children: [
+                        {
+                            name: 'adminContestAll',
+                            path: 'all',
+                            component: () => import('@/components/adminPage/admin-contest-all.vue')
+                        },
+                        {
+                            name: 'adminContestAdd',
+                            path: 'add',
+                            component: () => import('@/components/adminPage/admin-contest-edit.vue')
+                        },
+                        {
+                            name: 'adminContestEdit',
+                            path: ':cid/edit',
+                            component: () => import('@/components/adminPage/admin-contest-edit.vue')
+                        },
+                        {
+                            name: 'adminContestProblemAll',
+                            path: ':cid/problem',
+                            component: () => import('@/views/admin/adminContestProblemPage.vue')
+                        },
+                        {
+                            name: 'adminContestProblemAdd',
+                            path: ':cid/problem/add',
+                            component: () => import('@/views/admin/adminProblemEditPage.vue')
+                        },
+                    ]
                 }
             ]
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            component: () => import('@/views/404_not_found.vue')
         }
     ]
 })
