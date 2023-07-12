@@ -2,6 +2,7 @@
 import {defineComponent} from 'vue'
 import {DArrowRight} from "@element-plus/icons-vue";
 import {ContestStatus} from "@/constants";
+import bus from "@/event";
 
 export default defineComponent({
     name: "recentContests",
@@ -20,6 +21,15 @@ export default defineComponent({
         getData() {
             this.$axios.get('/contest/recent').then(res => {
                 this.contests = res.data
+            })
+        },
+        getContestDetail(r, c, e) {
+            bus.emit('changeHeaderIndex', '/contest')
+            this.$router.push({
+                name: 'contestDescription',
+                params: {
+                    cid: r.id
+                }
             })
         }
     },
@@ -43,15 +53,8 @@ export default defineComponent({
                 </el-icon>
             </el-link>
         </div>
-        <el-table :data="contests">
-            <el-table-column label="Title" prop="title">
-                <template #default="slot">
-                    <el-link
-                            :href="'/contest/detail/'+slot.row.id"
-                            :underline="false">{{ slot.row.title }}
-                    </el-link>
-                </template>
-            </el-table-column>
+        <el-table :data="contests" @row-click="getContestDetail">
+            <el-table-column label="Title" prop="title"></el-table-column>
             <el-table-column label="Start Time" prop="start_at">
                 <template #default="slot">
                     {{ $formatDate(slot.row.start_at) }}
