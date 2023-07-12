@@ -13,7 +13,7 @@ export default defineComponent({
             tableLoading: false,
         }
     },
-    mounted() {
+    created() {
         this.page_num = this.$route.params.pid ? this.$route.params.pid : this.page_num
         this.getPage()
     },
@@ -39,6 +39,12 @@ export default defineComponent({
             })
             this.page_num = page
             this.getPage()
+        },
+        getProblemDetail(r, c, e) {
+            this.$router.push({
+                name: 'problemDescription',
+                params: {pid: r.id},
+            })
         }
     }
 })
@@ -48,23 +54,14 @@ export default defineComponent({
         <div style="width: 60%;margin:0 auto;">
             <el-table
                     v-loading="tableLoading"
+                    @rowClick="getProblemDetail"
                     :data="items">
-                <el-table-column label="ID" width="100">
+                <el-table-column width="100">
                     <template #default="slot">
-                        <el-link
-                                :href="'/problem/detail/'+slot.row.id"
-                                :underline="false">{{ slot.row.id }}
-                        </el-link>
+                        {{ page_size * (page_num - 1) + slot.$index + 1 }}
                     </template>
                 </el-table-column>
-                <el-table-column label="Title" prop="title">
-                    <template #default="slot">
-                        <el-link
-                                :href="'/problem/detail/'+slot.row.id"
-                                :underline="false">{{ slot.row.title }}
-                        </el-link>
-                    </template>
-                </el-table-column>
+                <el-table-column label="Title" prop="title"></el-table-column>
                 <el-table-column label="AC Rate" prop="status" width="150">
                     <template #default="slot">
                         <el-text>

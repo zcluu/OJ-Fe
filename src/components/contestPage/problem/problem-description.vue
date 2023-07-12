@@ -53,9 +53,10 @@ export default defineComponent({
         },
         submitCode() {
             let data = {
-                "problem_id": window.localStorage.getItem('contestProblemId'),
+                "pid": window.localStorage.getItem('contestProblemId'),
                 "language": this.submitForm.selectedLanguage,
-                "source_code": this.$refs.codeEditor.code
+                "source_code": this.$refs.codeEditor.code,
+                "cp_id": this.problem.cp_id
             }
             this.waitSubmit = true
             this.$axios.post('/submission/judge', data).then(res => {
@@ -67,7 +68,7 @@ export default defineComponent({
         },
         getSubmissionResult() {
             this.$axios.get('/submission/status', {params: {submission_id: this.submission_id}}).then(res => {
-                if (res.data.result !== JudgeStatus.JUDGING) {
+                if (res.data.result !== JudgeStatus.JUDGING && res.data.result !== JudgeStatus.PENDING) {
                     this.waitLoading = false
                     this.judgeStatus = res.data.result
                     console.log(this.judgeStatus)

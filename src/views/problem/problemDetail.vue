@@ -28,12 +28,12 @@ export default defineComponent({
             samples: [],
         }
     },
-    created() {
+    mounted() {
         this.getDetail()
     },
     methods: {
         getDetail() {
-            this.$axios.get('/problem/detail', {params: {problem_id: this.$route.params.pid}}).then(res => {
+            this.$axios.get('/problem/detail', {params: {pid: this.$route.params.pid}}).then(res => {
                 this.problem = res.data
                 this.samples = res.data.samples
             })

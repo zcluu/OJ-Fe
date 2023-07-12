@@ -7,7 +7,7 @@ export default defineComponent({
     methods: {
         changePage(row, column, event) {
             let showID = ''
-            window.localStorage.setItem('contestProblemId', row.id)
+            window.localStorage.setItem('contestProblemId', row.pid)
             for (let i = 0; i < this.contestInfo.problems.length; i++) {
                 if (this.contestInfo.problems[i].id === row.id) {
                     showID = String.fromCharCode(65 + i)

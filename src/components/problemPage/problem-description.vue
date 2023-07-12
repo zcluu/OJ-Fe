@@ -52,9 +52,10 @@ export default defineComponent({
         },
         submitCode() {
             let data = {
-                "problem_id": this.$route.params.pid,
+                "pid": this.$route.params.pid,
                 "language": this.submitForm.selectedLanguage,
-                "source_code": this.$refs.codeEditor.code
+                "source_code": this.$refs.codeEditor.code,
+                "cp_id": this.problem.cp_id
             }
             this.waitSubmit = true
             this.$axios.post('/submission/judge', data).then(res => {
