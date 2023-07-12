@@ -8,7 +8,8 @@ export default defineComponent({
     components: {Grid, HomeFilled},
     data() {
         return {
-            is_dark: false
+            is_dark: false,
+            activeIndex: ''
         }
     },
     created() {
@@ -16,6 +17,11 @@ export default defineComponent({
             this.is_dark = true
             document.getElementsByTagName('html')[0].className = 'dark'
         }
+        this.activeIndex = '/' + window.location.href.replace(window.location.origin, '').slice(3).split('/')[0]
+        bus.on('changeHeaderIndex', (index) => {
+            console.log(index)
+            this.activeIndex = index
+        })
     },
     methods: {
         changeDark() {
@@ -36,7 +42,7 @@ export default defineComponent({
 import {BellFilled, List, Moon, Sunny} from "@element-plus/icons-vue";
 import UserController from "@/components/userController.vue";
 
-let activeIndex = '/' + window.location.pathname.slice(1).split('/')[0]
+
 </script>
 <template>
     <user-controller/>
