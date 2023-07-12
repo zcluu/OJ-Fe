@@ -29,7 +29,14 @@ export default defineComponent({
     },
     methods: {
         getDetail() {
-            this.$axios.get('/problem/detail', {params: {problem_id: window.localStorage.getItem('contestProblemId')}}).then(res => {
+            this.$axios.get('/problem/detail',
+                {
+                    params:
+                        {
+                            pid: window.localStorage.getItem('contestProblemId'),
+                            cid: this.$route.params.cid
+                        }
+                }).then(res => {
                 this.problem = res.data
                 this.samples = res.data.samples
             })
